@@ -1,4 +1,5 @@
 export interface SummaryData {
+  sheetname:string;
   category: string;
   brand: string;
   year: number | null;
