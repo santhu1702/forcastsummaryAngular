@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { ExcelService } from '../_Services/excel.service'; 
 import { HotTableComponent } from '@handsontable/angular';
 import Handsontable from 'handsontable';
@@ -14,20 +14,9 @@ export class ExcelComponent {
   hotElement!: HotTableComponent;
 
   constructor(private excelService: ExcelService) { }
-
-  // data1 = [
-  //   ['10.26', null, 'Sum', '=SUM(A:A)'],
-  //   ['20.12', null, 'Average', '=AVERAGE(A:A)'],
-  //   ['30.01', null, 'Median', '=MEDIAN(A:A)'],
-  //   ['40.29', null, 'MAX', '=MAX(A:A)'],
-  //   ['50.18', null, 'MIN', '=MIN(A1:A5)'],
-  //   [''],
-  //   ['=SUM(A1:A5)', null, '', '']
-  // ];
-
+ 
   ngOnInit(): void {
-    this.binddata();
-
+    this.binddata(); 
   }
 
   hyperformulaInstance = HyperFormula.buildEmpty({
@@ -39,9 +28,7 @@ export class ExcelComponent {
       return category;
     });
   }
-
-
-
+ 
   async getsummarydata() {
     return new Promise((resolve, reject) => {
       this.excelService.SummaryData().subscribe({
@@ -57,8 +44,6 @@ export class ExcelComponent {
     });
   }
   
-  
-
   async binddata() {
     const container1 = document.querySelector('#example-basic-multi-sheet-1');
     debugger
