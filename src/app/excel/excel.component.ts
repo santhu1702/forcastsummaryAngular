@@ -17,6 +17,7 @@ export class ExcelComponent {
  
   ngOnInit(): void {
     this.binddata(); 
+    this.getDropdowndata();
   }
 
   hyperformulaInstance = HyperFormula.buildEmpty({
@@ -67,11 +68,17 @@ export class ExcelComponent {
       });
     }
   }
+  async getDropdowndata() {
+    return new Promise((resolve, reject) => {
+      this.excelService.dropdowndata().subscribe({
+        next: (response) => {
+          console.log(response);  
+          resolve(response);
+        }, 
+        error: (error) => {
+          reject(error);
+        },
+      });
+    });
+  }
 }
-// mergeCells: [
-//   {row: 1, col: 0, rowspan: 3, colspan: 1},
-//   {row: 5, col: 0, rowspan: 3, colspan: 1},
-//   {row: 9, col: 0, rowspan: 3, colspan: 1},
-//   {row: 13, col: 0, rowspan: 3, colspan: 1},
-
-// ],
