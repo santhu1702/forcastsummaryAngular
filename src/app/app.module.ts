@@ -7,6 +7,10 @@ import { ExcelComponent } from './excel/excel.component';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatSelectModule} from '@angular/material/select';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
 
 
 
@@ -21,7 +25,11 @@ import {MatSelectModule} from '@angular/material/select';
     HotTableModule.forRoot(),
     HttpClientModule,
     BrowserAnimationsModule,
-    MatSelectModule
+    MatSelectModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatProgressSpinnerModule 
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -19,6 +19,6 @@ export class ExcelService {
     return this.http.get<subCategory[]>(this.baseurl + 'SubCatagoery');
  }
  dropdowndata() {
-  return this.http.get<DropDownsData[]>(this.baseurl + 'DropDownsData');
+  return this.http.get<DropDownsData>(this.baseurl + 'DropDownsData');
 }
 }

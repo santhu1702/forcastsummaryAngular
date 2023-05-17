@@ -1,8 +1,81 @@
 <section>
-    <div class="col-4"></div>
-    <div class="col-4"></div>
-    <div class="col-4"></div>
-  </section>
-  
-  <div id="example-basic-multi-sheet-1"></div>
-  
+  <div class="col-12 row">
+    <form [formGroup]="excelForm" (ngSubmit)="getData(excelForm.value)">
+      <div class="col-12 row">
+        <div class="col-6">
+          <div class="col-12 text-center text-primary p-3">Filters</div>
+          <div class="col-12 row">
+            <div class="col-4">
+              <mat-form-field appearance="outline">
+                <mat-label>DataSource</mat-label>
+                <mat-select formControlName="DataSource" multiple>
+                  <mat-option *ngFor="let DataSource of ddnDataSource" [value]="DataSource">{{ DataSource }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-4">
+              <mat-form-field appearance="outline">
+                <mat-label>Minor Category</mat-label>
+                <mat-select formControlName="Category" multiple>
+                  <mat-option *ngFor="let Category of ddnCategory" [value]="Category">{{ Category }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-4">
+              <mat-form-field appearance="outline">
+                <mat-label>Brands</mat-label>
+                <mat-select formControlName="Brands" multiple>
+                  <mat-option *ngFor="let brand of ddnBrands" [value]="brand">{{ brand }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="col-12 text-center text-primary p-3">Show/Hide Dimensions</div>
+          <div class="col-12 row">
+            <div class="col-4">
+              <mat-form-field appearance="outline">
+                <mat-label>Roll Ups</mat-label>
+                <mat-select formControlName="rollup" multiple>
+                  <mat-option *ngFor="let rollup of ddnrollUps" [value]="rollup">{{ rollup }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-4">
+              <mat-form-field appearance="outline">
+                <mat-label>Years</mat-label>
+                <mat-select formControlName="Years" multiple>
+                  <mat-option *ngFor="let Year of ddnYears" [value]="Year">{{ Year }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-4">
+              <mat-form-field appearance="outline">
+                <mat-label>Measure</mat-label>
+                <mat-select formControlName="Measure">
+                  <mat-option *ngFor="let measure of ddnMeasure" [value]="measure">{{ measure }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <button class="btn btn-primary" type="submit">getdata</button>
+      </div>
+    </form>
+  </div>
+</section>
+<br>
+<section>
+  <div class="col-12, row">
+    <div class="col-12">
+      <div id="example-basic-multi-sheet-1"></div>
+    </div>
+  </div>
+</section>

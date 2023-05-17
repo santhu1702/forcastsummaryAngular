@@ -1,5 +1,5 @@
 export interface DropDownsData {
-  subcategories: string; 
+  subCategories: string; 
   brands: string; 
   sources: string;
   years: number | null;
