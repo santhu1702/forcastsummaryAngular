@@ -1,6 +1,6 @@
 <section>
   <div class="col-12 row">
-    <form [formGroup]="excelForm" (ngSubmit)="getData(excelForm.value)">
+    <form [formGroup]="dropDownForm" (ngSubmit)="getData(dropDownForm.value)">
       <div class="col-12 row">
         <div class="col-6">
           <div class="col-12 text-center text-primary p-3">Filters</div>
@@ -17,7 +17,7 @@
             <div class="col-4">
               <mat-form-field appearance="outline">
                 <mat-label>Minor Category</mat-label>
-                <mat-select formControlName="Category" multiple>
+                <mat-select formControlName="subCategory" multiple>
                   <mat-option *ngFor="let Category of ddnCategory" [value]="Category">{{ Category }}
                   </mat-option>
                 </mat-select>
@@ -40,7 +40,7 @@
             <div class="col-4">
               <mat-form-field appearance="outline">
                 <mat-label>Roll Ups</mat-label>
-                <mat-select formControlName="rollup" multiple>
+                <mat-select formControlName="rollup" [multiple]="true">
                   <mat-option *ngFor="let rollup of ddnrollUps" [value]="rollup">{{ rollup }}
                   </mat-option>
                 </mat-select>

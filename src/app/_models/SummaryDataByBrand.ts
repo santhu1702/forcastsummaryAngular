@@ -1,4 +1,4 @@
-export interface USP_GetSummaryDataByBrandResult {
+export interface SummaryDataByBrand {
   category: string;
   brand: string;
   year: number | null;

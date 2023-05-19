@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { ExcelService } from '../_Services/excel.service';
 import Handsontable from 'handsontable';
 import HyperFormula from 'hyperformula';
@@ -10,6 +10,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { SpinnerService } from '../_Services/spinner.service';
+import { MatSelect } from '@angular/material/select';
 
 @Component({
   selector: 'app-excel',
@@ -17,45 +18,28 @@ import { SpinnerService } from '../_Services/spinner.service';
   styleUrls: ['./excel.component.css'],
 })
 export class ExcelComponent {
+  @ViewChild('rollUp') rollUp!: MatSelect;
   excelData: any;
-  dropdownData: any = [];
-  ddnDataSource: any = [];
-  ddnCategory: any = [];
-  ddnBrands: any = [];
-  ddnYears: any = [];
-  ddnrollUps: any = ['Quarter Ups', 'Half MAT', 'Full Year'];
-  ddnMeasure: any = [
+  dropdownData: any ;
+  ddnDataSource: any = []  ;
+  ddnCategory: any = []  ;
+  ddnBrands: any = [] ;
+  ddnYears: any = [] ;
+  ddnrollUps: string[] = ['Quarter Ups', 'Half MAT', 'Full Year'];
+  ddnMeasure: any[] = [
     '$ Sales CATEGORY',
     '% Chg CATEGORY',
     '$ Sales UNILEVER',
     '% Chg UNILEVER',
     ' UL $ Share',
   ];
-  excelForm = this._FormBuilder.group({
-    Brands: new FormControl(
-      { value: 'all', disabled: false },
-      Validators.required
-    ),
-    Category: new FormControl(
-      { value: 'all', disabled: false },
-      Validators.required
-    ),
-    DataSource: new FormControl(
-      { value: 'all', disabled: false },
-      Validators.required
-    ),
-    Years: new FormControl(
-      { value: 'all', disabled: false },
-      Validators.required
-    ),
-    rollup: new FormControl(
-      { value: 'all', disabled: false },
-      Validators.required
-    ),
-    Measure: new FormControl(
-      { value: 'all', disabled: false },
-      Validators.required
-    ),
+  dropDownForm = this._FormBuilder.group({
+    Brands: new FormControl( ),
+    subCategory: new FormControl( ),
+    DataSource: new FormControl( ),
+    Years: new FormControl( [Validators.required] ),
+    rollup: new FormControl(),
+    Measure: new FormControl([Validators.required] ),
   });
 
   constructor(
@@ -65,10 +49,13 @@ export class ExcelComponent {
   ) {}
 
   ngOnInit(): void {
-    this.loader.showSpinner();
+    // this.loader.showSpinner();
     this.getDropdowndata().then(() => {
       this.loader.hideSpinner();
     });
+    // setTimeout(() => {
+    // this.getDropdowndata();
+    // }, 5000);
   }
 
   hyperformulaInstance = HyperFormula.buildEmpty({
@@ -84,7 +71,7 @@ export class ExcelComponent {
   async getData(value: any) {
     this.loader.showSpinner();
     console.log('Excel ', value);
-    await this.binddata();
+    await this.binddata(value);
     this.loader.hideSpinner();
   }
 
@@ -101,14 +88,31 @@ export class ExcelComponent {
       });
     });
   }
+  async getSummaryDataByBrand(dropdownData : any) {
+    return new Promise((resolve, reject) => {
+      this.excelService.SummaryDataByFilters(dropdownData).subscribe({
+        next: (response) => {
+          console.log(response);
+          resolve(response);
+        },
+        error: (error) => {
+          reject(error);
+        },
+      });
+    });
+  }
 
-  async binddata() {
+  async binddata(data : any) {
     const container1 = document.querySelector('#example-basic-multi-sheet-1');
-    await this.getsummarydata().then((res) => {
+  
+    try {
+      // const res = await this.getsummarydata();
+     const res = await this.getSummaryDataByBrand(data);
       this.excelData = res;
+  
       if (container1) {
         container1.innerHTML = '';
-        new Handsontable(container1, {
+        const hotInstance = new Handsontable(container1, {
           data: this.excelData.data,
           colHeaders: true,
           rowHeaders: true,
@@ -116,21 +120,37 @@ export class ExcelComponent {
           formulas: {
             engine: this.hyperformulaInstance,
           },
-          mergeCells: this.excelData.summaryDataArray,
+          mergeCells: this.excelData.mergeData,
           licenseKey: 'non-commercial-and-evaluation',
         });
+  
+        // Example usage of setRowHidden
+        const rowIndex = 2; // Index of the row you want to hide
+        const hidden = true; // Set to true to hide the row, false to show it
+        this.setRowHidden(hotInstance, rowIndex, hidden);
       }
+    } catch (error) {
+      console.error('An error occurred while binding data:', error);
+    }
+  }
+  
+   setRowHidden(hotInstance : any, rowIndex  : any, hidden : any) {
+    hotInstance.updateSettings({
+      rowHidden: {
+        [rowIndex]: hidden,
+      },
     });
   }
+  
   async getDropdowndata() {
     return new Promise((resolve, reject) => {
       this.excelService.dropdowndata().subscribe({
-        next: (response: DropDownsData) => {
+        next: (response: DropDownsData) => { 
           this.ddnBrands = response.brands;
           this.ddnCategory = response.subCategories;
           this.ddnDataSource = response.sources;
           this.ddnYears = response.years;
-          console.log(this.ddnCategory);
+          console.log(response);
           resolve(response);
         },
         error: (error) => {
