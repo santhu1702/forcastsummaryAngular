@@ -11,7 +11,7 @@ import {
 } from '@angular/forms';
 import { SpinnerService } from '../_Services/spinner.service';
 import { MatSelect } from '@angular/material/select';
-
+ 
 @Component({
   selector: 'app-excel',
   templateUrl: './excel.component.html',
@@ -20,11 +20,11 @@ import { MatSelect } from '@angular/material/select';
 export class ExcelComponent {
   @ViewChild('rollUp') rollUp!: MatSelect;
   excelData: any;
-  dropdownData: any ;
-  ddnDataSource: any = []  ;
-  ddnCategory: any = []  ;
-  ddnBrands: any = [] ;
-  ddnYears: any = [] ;
+  dropdownData: any;
+  ddnDataSource: any = [];
+  ddnCategory: any = [];
+  ddnBrands: any = [];
+  ddnYears: any = [];
   ddnrollUps: string[] = ['Quarter Ups', 'Half MAT', 'Full Year'];
   ddnMeasure: any[] = [
     '$ Sales CATEGORY',
@@ -34,22 +34,22 @@ export class ExcelComponent {
     ' UL $ Share',
   ];
   dropDownForm = this._FormBuilder.group({
-    Brands: new FormControl( ),
-    subCategory: new FormControl( ),
-    DataSource: new FormControl( ),
-    Years: new FormControl( [Validators.required] ),
+    Brands: new FormControl(),
+    subCategory: new FormControl(),
+    DataSource: new FormControl(),
+    Years: new FormControl([Validators.required]),
     rollup: new FormControl(),
-    Measure: new FormControl([Validators.required] ),
+    Measure: new FormControl([Validators.required]),
   });
 
   constructor(
     private excelService: ExcelService,
     private _FormBuilder: FormBuilder,
     private loader: SpinnerService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-    // this.loader.showSpinner();
+    this.loader.showSpinner();
     this.getDropdowndata().then(() => {
       this.loader.hideSpinner();
     });
@@ -71,11 +71,17 @@ export class ExcelComponent {
   async getData(value: any) {
     this.loader.showSpinner();
     console.log('Excel ', value);
-    await this.binddata(value);
-    this.loader.hideSpinner();
+    try {
+      const data = await this.bindData(value);
+      this.loader.hideSpinner();
+      return data;
+    } catch (error) {
+      this.loader.hideSpinner();
+      throw error;
+    }
   }
 
-  async getsummarydata() {
+  async getSummaryData() {
     return new Promise((resolve, reject) => {
       this.excelService.SummaryData().subscribe({
         next: (response) => {
@@ -88,7 +94,7 @@ export class ExcelComponent {
       });
     });
   }
-  async getSummaryDataByBrand(dropdownData : any) {
+  async getSummaryDataByBrand(dropdownData: any) {
     return new Promise((resolve, reject) => {
       this.excelService.SummaryDataByFilters(dropdownData).subscribe({
         next: (response) => {
@@ -102,14 +108,14 @@ export class ExcelComponent {
     });
   }
 
-  async binddata(data : any) {
+  async bindData(data: any) {
     const container1 = document.querySelector('#example-basic-multi-sheet-1');
-  
+
     try {
-      // const res = await this.getsummarydata();
-     const res = await this.getSummaryDataByBrand(data);
+      // const res = await this.getSummaryData();
+      const res = await this.getSummaryDataByBrand(data);
       this.excelData = res;
-  
+
       if (container1) {
         container1.innerHTML = '';
         const hotInstance = new Handsontable(container1, {
@@ -120,32 +126,23 @@ export class ExcelComponent {
           formulas: {
             engine: this.hyperformulaInstance,
           },
-          mergeCells: this.excelData.mergeData,
+          //mergeCells: this.excelData.mergeData,
           licenseKey: 'non-commercial-and-evaluation',
-        });
-  
-        // Example usage of setRowHidden
-        const rowIndex = 2; // Index of the row you want to hide
-        const hidden = true; // Set to true to hide the row, false to show it
-        this.setRowHidden(hotInstance, rowIndex, hidden);
+          // hiddenRows: {
+          //   rows : [2,3,4]
+          // }
+        }); 
       }
     } catch (error) {
       console.error('An error occurred while binding data:', error);
     }
   }
-  
-   setRowHidden(hotInstance : any, rowIndex  : any, hidden : any) {
-    hotInstance.updateSettings({
-      rowHidden: {
-        [rowIndex]: hidden,
-      },
-    });
-  }
-  
+
+   
   async getDropdowndata() {
     return new Promise((resolve, reject) => {
       this.excelService.dropdowndata().subscribe({
-        next: (response: DropDownsData) => { 
+        next: (response: DropDownsData) => {
           this.ddnBrands = response.brands;
           this.ddnCategory = response.subCategories;
           this.ddnDataSource = response.sources;
