@@ -126,7 +126,7 @@ export class ExcelComponent {
           formulas: {
             engine: this.hyperformulaInstance,
           },
-          //mergeCells: this.excelData.mergeData,
+          mergeCells: this.excelData.mergeData,
           licenseKey: 'non-commercial-and-evaluation',
           // hiddenRows: {
           //   rows : [2,3,4]
