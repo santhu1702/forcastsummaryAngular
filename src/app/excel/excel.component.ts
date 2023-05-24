@@ -3,15 +3,10 @@ import { ExcelService } from '../_Services/excel.service';
 import Handsontable from 'handsontable';
 import HyperFormula from 'hyperformula';
 import { DropDownsData } from '../_models/DropDownsData';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { SpinnerService } from '../_Services/spinner.service';
 import { MatSelect } from '@angular/material/select';
- 
+
 @Component({
   selector: 'app-excel',
   templateUrl: './excel.component.html',
@@ -25,37 +20,39 @@ export class ExcelComponent {
   ddnCategory: any = [];
   ddnBrands: any = [];
   ddnYears: any = [];
-  ddnrollUps: string[] = ['Quarter Ups', 'Half MAT', 'Full Year'];
+  ddnrollUps: string[] = ['Quarter MAT', 'Half MAT', 'Full Year'];
   ddnMeasure: any[] = [
     '$ Sales CATEGORY',
     '% Chg CATEGORY',
     '$ Sales UNILEVER',
     '% Chg UNILEVER',
-    ' UL $ Share',
+    'UL $ Share',
   ];
+
   dropDownForm = this._FormBuilder.group({
-    Brands: new FormControl(),
-    subCategory: new FormControl(),
-    DataSource: new FormControl(),
-    Years: new FormControl([Validators.required]),
-    rollup: new FormControl(),
-    Measure: new FormControl([Validators.required]),
+    Brands: new FormControl({ value: ['all'], disabled: false }),
+    subCategory: new FormControl({ value: ['all'], disabled: false }),
+    DataSource: new FormControl({ value: ['all'], disabled: false }),
+    Years: new FormControl({ value: ['all'], disabled: false }, [
+      Validators.required,
+    ]),
+    rollup: new FormControl({ value: ['all'], disabled: false }),
+    Measure: new FormControl({ value: 'all', disabled: false }, [
+      Validators.required,
+    ]),
   });
 
   constructor(
     private excelService: ExcelService,
     private _FormBuilder: FormBuilder,
     private loader: SpinnerService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.loader.showSpinner();
     this.getDropdowndata().then(() => {
       this.loader.hideSpinner();
     });
-    // setTimeout(() => {
-    // this.getDropdowndata();
-    // }, 5000);
   }
 
   hyperformulaInstance = HyperFormula.buildEmpty({
@@ -105,40 +102,63 @@ export class ExcelComponent {
           reject(error);
         },
       });
-    });
+    }); 
   }
 
   async bindData(data: any) {
     const container1 = document.querySelector('#example-basic-multi-sheet-1');
-
     try {
       // const res = await this.getSummaryData();
-      const res = await this.getSummaryDataByBrand(data);
+      let res : any  = await this.getSummaryDataByBrand(data);
+      console.log("BindData_Data",res)
       this.excelData = res;
-
+      let hotInstance: Handsontable;
       if (container1) {
         container1.innerHTML = '';
-        const hotInstance = new Handsontable(container1, {
-          data: this.excelData.data,
+        hotInstance = new Handsontable(container1, {
+          data: res.data,
           colHeaders: true,
           rowHeaders: true,
+          width: '100%',
           height: 'auto',
           formulas: {
             engine: this.hyperformulaInstance,
           },
-          mergeCells: this.excelData.mergeData,
+          mergeCells:res.mergeData,
           licenseKey: 'non-commercial-and-evaluation',
+          // customBorders: [
+          //   {
+          //     range: { from: { row: 0, col: 0 }, to: { row: 3, col: 15 } },
+          //     top: { width: 1, color: '#333333' },
+          //     left: { width: 1, color: '#333333' },
+          //     right: { width: 1, color: '#333333' },
+          //     bottom: { width: 1, color: '#333333' }
+          //   },
+          //   {
+          //     range: { from: { row: 15, col: 0 }, to: { row: 17, col: 15 } },
+          //     top: { width: 1, color: '#333333' },
+          //     left: { width: 1, color: '#333333' },
+          //     right: { width: 1, color: '#333333' },
+          //     bottom: { width: 1, color: '#333333' }
+          //   },
+          //   {
+          //     range: { from: { row: 19, col: 0 }, to: { row: 28, col: 15 } },
+          //     top: { width: 1, color: '#333333' },
+          //     left: { width: 1, color: '#333333' },
+          //     right: { width: 1, color: '#333333' },
+          //     bottom: { width: 1, color: '#333333' }
+          //   }
+          // ],
           // hiddenRows: {
           //   rows : [2,3,4]
           // }
-        }); 
+        });
       }
     } catch (error) {
-      console.error('An error occurred while binding data:', error);
+      console.error('error:', error);
     }
   }
 
-   
   async getDropdowndata() {
     return new Promise((resolve, reject) => {
       this.excelService.dropdowndata().subscribe({
