@@ -21,25 +21,15 @@ export class ExcelComponent {
   ddnBrands: any = [];
   ddnYears: any = [];
   ddnrollUps: string[] = ['Quarter MAT', 'Half MAT', 'Full Year'];
-  ddnMeasure: any[] = [
-    '$ Sales CATEGORY',
-    '% Chg CATEGORY',
-    '$ Sales UNILEVER',
-    '% Chg UNILEVER',
-    'UL $ Share',
-  ];
+  ddnMeasure: any[] = [ '$ Sales CATEGORY', '% Chg CATEGORY', '$ Sales UNILEVER', '% Chg UNILEVER', 'UL $ Share' ];
 
   dropDownForm = this._FormBuilder.group({
     Brands: new FormControl({ value: ['all'], disabled: false }),
     subCategory: new FormControl({ value: ['all'], disabled: false }),
     DataSource: new FormControl({ value: ['all'], disabled: false }),
-    Years: new FormControl({ value: ['all'], disabled: false }, [
-      Validators.required,
-    ]),
+    Years: new FormControl({ value: ['all'], disabled: false }, [ Validators.required ]),
     rollup: new FormControl({ value: ['all'], disabled: false }),
-    Measure: new FormControl({ value: 'all', disabled: false }, [
-      Validators.required,
-    ]),
+    Measure: new FormControl({ value: 'all', disabled: false }, [Validators.required]),
   });
 
   constructor(
