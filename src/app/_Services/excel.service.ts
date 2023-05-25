@@ -31,7 +31,14 @@ export class ExcelService {
     const body = JSON.stringify(summaryData); 
     return this.http.post<SummaryDataByBrand>(url, body, {
       headers: new HttpHeaders({ "Content-Type": "application/json" })
-    });
-
+    }); 
   }
+
+  uploadData(file: any) {
+    const url = `${this.baseurl}extractFileUpload`;
+    const formData = new FormData();
+    formData.append('file', file); 
+    return this.http.post<any>(url, formData);
+  }
+  
 }

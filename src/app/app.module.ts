@@ -10,6 +10,7 @@ import {MatSelectModule} from '@angular/material/select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ExcelUploadComponent } from './excel/excel-upload/excel-upload.component';
 
 
 
@@ -17,7 +18,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 @NgModule({
   declarations: [
     AppComponent,
-    ExcelComponent
+    ExcelComponent,
+    ExcelUploadComponent
   ],
   imports: [
     BrowserModule,
