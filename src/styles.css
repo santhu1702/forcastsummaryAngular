@@ -21,4 +21,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   .spinner-overlay .mat-spinner {
     color: white;
   }
-  
+
+  .make-me-red {
+    color: #be0006; 
+} 
+.make-me-green{
+  color: #006100;
+}

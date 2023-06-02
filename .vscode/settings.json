@@ -1,10 +1,12 @@
 {
     "cSpell.words": [
+        "colspan",
         "dropdowndata",
         "getdata",
         "getsub",
         "handsontable",
         "hyperformula",
-        "jqxgrid"
+        "jqxgrid",
+        "rowspan"
     ]
 }
