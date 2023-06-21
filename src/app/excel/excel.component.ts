@@ -123,8 +123,8 @@ export class ExcelComponent {
         container1.innerHTML = '';
         this.hotInstance = new Handsontable(container1, {
           data: res,
-          colHeaders: true,
-          rowHeaders: true,
+          colHeaders: false,
+          rowHeaders: false,
           width: '100%',
           height: 'auto',
           formulas: {
@@ -204,6 +204,8 @@ export class ExcelComponent {
       console.error('error:', error);
     }
   };
+
+
   firstRowRenderer = (instance: any, td: any, row: any, col: any, prop: any, value: any, cellProperties: any) => {
     Handsontable.renderers.TextRenderer.apply(this, [instance, td, row, col, prop, value, cellProperties]); // Use apply with an array of arguments
     td.style.fontWeight = 'bold';
