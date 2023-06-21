@@ -6,6 +6,7 @@ import { SummaryData } from '../_models/SummaryData';
 import { DropDownsData } from '../_models/DropDownsData';
 import { SummaryDataByFilters } from '../_models/SummaryDataByFilters';
 import { SummaryDataByBrand } from '../_models/SummaryDataByBrand';
+import { uploadData } from '../_models/uploadData';
 @Injectable({
   providedIn: 'root'
 })
@@ -50,7 +51,7 @@ export class ExcelService {
   uploadExcelData(data: any) {
      const url = `${this.baseurl}upload`;
     const body = JSON.stringify(data);
-    return this.http.post<SummaryDataByBrand>(url, body, {
+    return this.http.post<uploadData>(url, body, {
       headers: new HttpHeaders({ "Content-Type": "application/json" })
     });
   }

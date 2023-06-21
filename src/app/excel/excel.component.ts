@@ -210,15 +210,15 @@ export class ExcelComponent {
     Handsontable.renderers.TextRenderer.apply(this, [instance, td, row, col, prop, value, cellProperties]); // Use apply with an array of arguments
     td.style.fontWeight = 'bold';
     td.style.color = 'white';
-    td.style.background = '#305496';
+    td.style.background = '#1d4254';
   }
   negativeValueRenderer = (instance: any, td: any, row: number, col: number, prop: string | number, value: any, cellProperties: any) => {
     Handsontable.renderers.TextRenderer.apply(this, [instance, td, row, col, prop, value, cellProperties]);
     const columnHeader = instance.getDataAtCell(row, 2); // Assuming the column header is in the 3rd row (index 2)
     if (col > 3 && ["UL BPS Chg", "$ % Chg","Proj $ % Chg","Proj BPS Chg"].includes(columnHeader) && !isNaN(parseFloat(value))) {
-      console.log(parseFloat(value));
+      //console.log(parseFloat(value));
       const isNegative = parseFloat(value) < 0; 
-      console.log('isNegative',isNegative)
+      //console.log('isNegative',isNegative)
       td.className = isNegative ? 'make-me-red' : 'make-me-green';
       td.style.background = isNegative ? '#ffc7ce' : '#c6efce';
       td.style.fontWeight = 'bold';
@@ -253,7 +253,7 @@ export class ExcelComponent {
       this.excelService.uploadExcelData(data).subscribe({
         next: (response) => {
           console.log('getTemplateData', response);
-          alert(response)
+          alert(response.message)
           resolve(response);
         },
         error: (error) => {

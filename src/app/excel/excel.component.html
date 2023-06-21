@@ -2,14 +2,36 @@
   <div class="col-12 row">
     <form [formGroup]="dropDownForm" (ngSubmit)="getData(dropDownForm.value)">
       <div class="col-12 row">
-        <div class="col-6">
+        <div class="col-4" style="padding-left: 2vw;">
+          <div class="col-12 text-center text-primary p-3">Scenarios</div>
+          <div class="col-12 row">
+            <div class="col-6">
+              <mat-form-field appearance="outline">
+                <mat-label>Load Existing Scenarios</mat-label>
+                <mat-select formControlName="DataSource" multiple>
+                  <mat-option>Scenario 1</mat-option>
+                  <mat-option>Scenario 2</mat-option>
+                  <mat-option>Scenario 3</mat-option>
+                  <mat-option>Scenario 4</mat-option>
+                  <mat-option>Scenario 5</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-6"> 
+              <input type="text" class="form-control m-1 p-3" placeholder="Start New Scenario:">
+            </div>
+
+          </div>
+        </div>
+        <div class="col-4">
           <div class="col-12 text-center text-primary p-3">Filters</div>
           <div class="col-12 row">
             <div class="col-4">
               <mat-form-field appearance="outline">
                 <mat-label>DataSource</mat-label>
                 <mat-select formControlName="DataSource" multiple>
-                  <mat-option *ngFor="let DataSource of ddnDataSource" [value]="DataSource">{{ DataSource }}
+                  <mat-option *ngFor="let DataSource of ddnDataSource" [value]="DataSource">
+                    {{ DataSource }}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
@@ -18,7 +40,8 @@
               <mat-form-field appearance="outline">
                 <mat-label>Minor Category</mat-label>
                 <mat-select formControlName="subCategory" multiple>
-                  <mat-option *ngFor="let Category of ddnCategory" [value]="Category">{{ Category }}
+                  <mat-option *ngFor="let Category of ddnCategory" [value]="Category">
+                    {{ Category }}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
@@ -27,21 +50,23 @@
               <mat-form-field appearance="outline">
                 <mat-label>Brands</mat-label>
                 <mat-select formControlName="Brands" multiple>
-                  <mat-option *ngFor="let brand of ddnBrands" [value]="brand">{{ brand }}
+                  <mat-option *ngFor="let brand of ddnBrands" [value]="brand">
+                    {{ brand }}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
             </div>
           </div>
         </div>
-        <div class="col-6">
+        <div class="col-4">
           <div class="col-12 text-center text-primary p-3">Show/Hide Dimensions</div>
           <div class="col-12 row">
             <div class="col-4">
               <mat-form-field appearance="outline">
                 <mat-label>Roll Ups</mat-label>
                 <mat-select formControlName="rollup" [multiple]="true">
-                  <mat-option *ngFor="let rollup of ddnrollUps" [value]="rollup">{{ rollup }}
+                  <mat-option *ngFor="let rollup of ddnrollUps" [value]="rollup">
+                    {{ rollup }}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
@@ -50,7 +75,8 @@
               <mat-form-field appearance="outline">
                 <mat-label>Years</mat-label>
                 <mat-select formControlName="Years" multiple>
-                  <mat-option *ngFor="let Year of ddnYears" [value]="Year">{{ Year }}
+                  <mat-option *ngFor="let Year of ddnYears" [value]="Year">
+                    {{ Year }}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
@@ -59,20 +85,27 @@
               <mat-form-field appearance="outline">
                 <mat-label>Measure</mat-label>
                 <mat-select formControlName="Measure">
-                  <mat-option *ngFor="let measure of ddnMeasure" [value]="measure">{{ measure }}
+                  <mat-option *ngFor="let measure of ddnMeasure" [value]="measure">
+                    {{ measure }}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
             </div>
           </div>
         </div>
+
       </div>
-      <div class="col-12 row justify-content-end">
-        <div class="col-6 float-right"> 
-          <button class="btn btn-primary p-2 m-2 float-end" (click)="uploadData()">Upload Data</button>
-          <button class="btn btn-primary p-2 m-2 float-end" type="submit">Get Data</button>
+      <div class="col-12 row">
+        <div class="col-4">
+          <button class="btn btn-secondary p-2 m-2 float-end">Publish Scenario</button>
         </div>
-       </div>
+        <div class="col-4"></div>  
+        <div class="col-4">
+          <button class="btn btn-secondary p-2 m-2 float-end" (click)="uploadData()">Upload Data</button>
+          <button class="btn btn-secondary p-2 m-2 float-end" type="submit">Get Data</button>
+        </div>
+
+      </div>
     </form>
   </div>
 </section>
