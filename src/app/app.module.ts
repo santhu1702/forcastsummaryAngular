@@ -11,6 +11,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ExcelUploadComponent } from './excel/excel-upload/excel-upload.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -31,7 +32,8 @@ import { ExcelUploadComponent } from './excel/excel-upload/excel-upload.componen
     FormsModule,
     ReactiveFormsModule,
     MatFormFieldModule,
-    MatProgressSpinnerModule 
+    MatProgressSpinnerModule,
+    NgbModule 
   ],
   providers: [],
   bootstrap: [AppComponent]
